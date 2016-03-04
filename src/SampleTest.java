@@ -15,6 +15,7 @@ public class SampleTest {
         System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
         WebDriver driver = new InternetExplorerDriver();
         driver.get("https://www.swedbank.lt/lt/spreadsheets/consumer2");
+
         WebElement firstInput = driver.findElement(By.id("SpreadsheetRequestedLoanAmount"));
         WebElement secondInput = driver.findElement(By.id("SpreadsheetNetMonthlyIncome"));
         WebElement firstRadio = driver.findElement(By.id("SpreadsheetWageAccount1"));
@@ -26,6 +27,7 @@ public class SampleTest {
         firstRadio.click();
         secondRadio.click();
         secondRadio.submit();
+
         WebElement ActualSum = driver.findElement(By.xpath("//div[contains(@class, 'consumerResultValue')]"));
         Assert.assertEquals(ActualSum.getText(), "14,48 Eur");
         driver.quit();

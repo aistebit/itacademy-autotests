@@ -11,17 +11,32 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class SampleTest {
 
+    private static WebDriver driver;
+
+    @BeforeClass
+    public static void setUpClass() {
+        File file = new File("C:/Intel/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+        driver.quit();
+    }
+
     @Test
     public void testCase() throws InterruptedException {
 
-        File file = new File("C:/Intel/chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
-        WebDriver driver = new ChromeDriver();
         WebDriverWait wait = new WebDriverWait(driver, 20);
+
         RegistrationForm page = new RegistrationForm(driver);
 
         page.goToPage();
@@ -45,12 +60,6 @@ public class SampleTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("buttonMyReg")));
         page.myRegistrations();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ng")));
-        WebElement myData = driver.findElement(By.xpath("//td[contains(text(),'2328-07-14')]"));
-        Assert.assertEquals("2328-07-14",myData.getText());
-
-
+        page.assertDate("2328-07-14");
     }
-
-
 }

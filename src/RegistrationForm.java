@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,13 +8,15 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by p998btn on 2016.03.04.
  */
 public class RegistrationForm {
 
-    private final WebDriver driver;
+    private static WebDriver driver;
+
 
     public RegistrationForm(WebDriver driver) {
         super();
@@ -23,6 +26,7 @@ public class RegistrationForm {
     public void goToPage() {
         driver.get("http://swedbank-us1bteam.rhcloud.com/?email=admin%40admin.lt&password=admin#/");
     }
+
 
     public void login() {
         WebElement loginEmail = driver.findElement(By.id("email"));
@@ -82,5 +86,8 @@ public class RegistrationForm {
         WebElement manoRegistracijos = driver.findElement(By.className("buttonMyReg"));
         manoRegistracijos.click();
     }
-
+    public void assertDate(String myDate){
+        List<WebElement> myList = driver.findElements(By.xpath("//tr[@class='ng-scope']"));
+        Assert.assertTrue(myList.get(myList.size()-1).getText().contains(myDate));
+    }
 }
